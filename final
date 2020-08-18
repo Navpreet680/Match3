@@ -1,0 +1,153 @@
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Point;
+import org.openqa.selenium.ScreenOrientation;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.logging.LogEntry;
+import org.openqa.selenium.remote.CapabilityType;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+
+import com.google.gson.Gson;
+
+import static io.appium.java_client.touch.TapOptions.tapOptions;
+import static io.appium.java_client.touch.offset.ElementOption.element;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+
+import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.MobileElement;
+import io.appium.java_client.TouchAction;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.remote.AndroidMobileCapabilityType;
+import io.appium.java_client.remote.MobileCapabilityType;
+import io.appium.java_client.touch.offset.PointOption;
+import ro.altom.altunitytester.AltUnityDriver;
+import ro.altom.altunitytester.AltUnityObject;
+import ro.altom.altunitytester.Commands.FindObject.AltFindObjectsParameters;
+import ro.altom.altunitytester.Commands.FindObject.AltGetAllElementsParameters;
+
+public class Match3Final {
+
+	static AltUnityDriver altdriver;
+	
+	
+	
+//	@BeforeClass
+//	public static void portForwarding() throws Exception {
+//	    AltUnityDriver.setupPortForwarding("android", "", 13000, 13000);
+//	    Thread.sleep(15000);
+//	     altdriver = new AltUnityDriver("127.0.0.1", 13000);
+
+ 
+
+	// Setting up the desired capabilities
+	@BeforeTest
+	public static void settingCapabilities() throws Exception {
+		AppiumDriver<MobileElement> driver;
+	   
+	    DesiredCapabilities capabilities = new DesiredCapabilities();
+	    capabilities.setCapability(CapabilityType.BROWSER_NAME, "");
+	    capabilities.setCapability("deviceName", "GalaxyS10+");
+	    capabilities.setCapability(MobileCapabilityType.UDID,"R58M30RVW0Z");
+	    capabilities.setCapability("platformName", "Android");
+	    capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION,"10");
+		capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME,"uiautomator2");
+		capabilities.setCapability(AndroidMobileCapabilityType.APP_PACKAGE,"com.JMarques.Match3");
+		capabilities.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY,"com.unity3d.player.UnityPlayerActivity");
+
+	    
+	    // Setting up the appium driver
+		URL url = new URL("http://127.0.0.1:4723/wd/hub");
+		driver = new AppiumDriver<MobileElement>(url,  capabilities);
+		Thread.sleep(15000);
+		
+	     altdriver = new AltUnityDriver("127.0.0.1", 13000);
+	    Thread.sleep(15000);
+	}
+	
+	// Pressing the Menu button
+	@Test(priority=1)
+	public static void pressingMenu() throws Exception {
+		 AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,"Menu").isEnabled(true).withCamera(AltUnityDriver.By.NAME, "Main Camera").build();
+	     AltUnityObject counterButton = altdriver.findObject(altFindObjectsParameters);
+	     counterButton.clickEvent();
+	     Thread.sleep(3000);
+	}
+	
+	// Pressing the Music ON/ OFF
+	@Test(priority=2)
+	public static void musicOnOff() throws Exception {
+		AltFindObjectsParameters altFindObjectsParameter1 = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,"Music").isEnabled(true).withCamera(AltUnityDriver.By.NAME, "Main Camera").build();
+	     AltUnityObject MusicButton1 = altdriver.findObject(altFindObjectsParameter1);
+	     MusicButton1.clickEvent();
+	     Thread.sleep(3000);
+	     
+	     AltFindObjectsParameters altFindObjectsParameter2 = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,"Music").isEnabled(true).withCamera(AltUnityDriver.By.NAME, "Main Camera").build();
+	     AltUnityObject MusicButton2 = altdriver.findObject(altFindObjectsParameter2);
+	     MusicButton2.clickEvent();
+	     Thread.sleep(3000);
+	}
+	
+	//Pressing the Back button
+	@Test(priority=3)
+	public static void pressingBack() throws Exception {
+		 AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,"Back").isEnabled(true).withCamera(AltUnityDriver.By.NAME, "Main Camera").build();
+	     AltUnityObject counterButton = altdriver.findObject(altFindObjectsParameters);
+	     counterButton.clickEvent();
+	     Thread.sleep(3000);
+	}
+	
+	// Pressing the Start button to start the game
+	@Test(priority=4)
+	public static void pressingStart() throws Exception {
+		 AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,"Start").isEnabled(true).withCamera(AltUnityDriver.By.NAME, "Main Camera").build();
+	     AltUnityObject counterButton = altdriver.findObject(altFindObjectsParameters);
+	     counterButton.clickEvent();
+	     Thread.sleep(3000);
+	}
+	
+	// Finding the Game Object Bread Gems elements
+	@Test(priority=5)
+	public static void calculatingNumberOfBreadGems() throws Exception {
+		{
+		     String name = "GameObject";
+		     int j = 0;
+		   //  AltUnityObject x;
+		     AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,
+		         name).isEnabled(true).withCamera(AltUnityDriver.By.NAME,"Main Camera").build();
+		     AltUnityObject[] altElements = altdriver.findObjects(altFindObjectsParameters);
+		     assertNotNull(altElements);
+		     String altElementsString = new Gson().toJson(altElements);
+		     System.out.println(altElementsString);
+		     Thread.sleep(2000);
+		     
+		     for (AltUnityObject element: altElements) {
+		    	 j=j+1;
+		    	 
+		     }
+		     System.out.println("Total number of BreadGems"+j);
+ 
+		 }
+	}
+	
+	//Exiting the app
+	@Test(priority=6)
+	public static void exitGame() throws Exception {
+		 AltFindObjectsParameters altFindObjectsParameters = new AltFindObjectsParameters.Builder(AltUnityDriver.By.NAME,"Exit").isEnabled(true).withCamera(AltUnityDriver.By.NAME, "Main Camera").build();
+	     AltUnityObject counterButton = altdriver.findObject(altFindObjectsParameters);
+	     counterButton.clickEvent();
+	     Thread.sleep(3000);
+	}
+	
+}
